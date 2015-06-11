@@ -1,0 +1,24 @@
+{
+  "name" : "Tiny Weather Forecast",
+  "version": "0.1",
+  "manifest_version" : 2,
+  "description": "Tiny extension what showing you weather forecast from yr.no (Norwegian Meteorological Institute and the NRK)",
+  "author" : "Vladimir Platunov, https://github.com/vo-va",
+  "icons": { "128": "twf.png" },
+  "permissions": [
+    "tabs",
+    "storage",
+    "http://www.yr.no/*"
+  ],
+  "background": {"scripts": ["background.js"]},
+  "content_scripts": [
+    {
+      "matches": ["http://www.yr.no/*"],
+      "js": ["setplace.js"],
+      "css" : ["main.css"]
+    }
+  ],
+  "browser_action": {
+    "default_icon": "twf.png"
+  }
+}

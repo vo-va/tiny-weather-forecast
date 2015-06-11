@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'futura';
+  font-style: normal;
+  font-weight: 400;
+  src: local('futura'), local('futura'), url(futura.woff2) format('woff2');
+}
+
+* {
+  font-family: "futura";
+}
