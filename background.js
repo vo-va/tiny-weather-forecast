@@ -250,6 +250,10 @@ var ext_core = {
 
 		request.send();
 	},
+
+	fetch_new_data : function() {
+		this.get_url_resource(this.my_place + this.forecast_page, this.response_handler);
+	},
 	fade : function() {
 
 		if (this.alpha >= 1 && this.direction === 1){
@@ -296,7 +300,7 @@ var ext_core = {
 		var weather_key = now;
 		var all_keys = Object.keys(this.forecast_cache).map(Number).sort();
 
-		// for different places around the word yr.no provide forecast with different interval
+		// for different places around the world yr.no provide forecast with different interval
 		// also you can't get forecast for past only for future
 		// for example, if you in Oslo and your current time ins 11:30, yr.no provide information only for 12:00 not for 11:00
 		// so we always take the nearest forecast for your current time 
@@ -441,6 +445,7 @@ ext_core.make_button();
 ext_core.load_cache();
 ext_core.get_forecast_for_now();
 ext_core.timeout_hndl = window.setTimeout(ext_core.main_loop.bind(ext_core), 500); //small timeout to let font load
-ext_core.forecast_interval = window.setInterval(ext_core.get_forecast_for_now.bind(ext_core), ext_core.main_interval);
+ext_core.forecast_interval = window.setInterval(ext_core.fetch_new_data.bind(ext_core), ext_core.main_interval);
+
 
 })();
