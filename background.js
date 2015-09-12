@@ -53,7 +53,8 @@ var ext_core = {
 		};
 	},
 	set_icon_title : function() {
-		chrome.browserAction.setTitle({'title': 'Current weather in ' + this.place_name + '. Open detailed weather forecast.'});
+		var text_temperature = this.temperature >= 0 ? '+' + this.temperature : this.temperature;
+		chrome.browserAction.setTitle({'title': 'Current weather in ' + this.place_name + ': ' + text_temperature + '.\nClick to open detailed weather forecast.'});
 	},
 	make_listen : function() {
 		var key;
@@ -382,6 +383,7 @@ var ext_core = {
 			// if icon is invisble timeout = 1
 			if (this.need_update) {
 				this.temperature = this.next_temperature;
+				this.set_icon_title();
 				this.buffer_image.src = this.next_symbol;
 				this.set_icon_title();
 				this.need_update = false;
