@@ -210,7 +210,7 @@ var ext_core = {
 			// so to convert to utc time we have to subtract or add local computer tzdiff and then forecast_tzdiff
 			// for example new Date("2015-01-01T00:00:00") in local tz + 4 create date object  Thu Jan 01 2015 04:00:00 GMT+0400
 			// and if forecast for Oslo tz = +0200 we must substract -4 and - 2 to the final result Jan 31 2014 22:00:00 GMT+0000
-			time = (new Date(time)).valueOf() + (tzdiff + forecast_tzdiff) * 60000;
+			time = (new Date(time)).valueOf() + forecast_tzdiff * 60000;
 			this.forecast_cache[time.toString()] = {'temperature': temperature, 'symbol' : symbol};
 		}
 
