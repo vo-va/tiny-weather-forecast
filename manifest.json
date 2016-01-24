@@ -1,6 +1,6 @@
 {
   "name" : "Tiny Weather Forecast",
-  "version": "0.3",
+  "version": "0.4",
   "manifest_version" : 2,
   "description": "Tiny extension what showing you weather forecast from yr.no (Norwegian Meteorological Institute and the NRK)",
   "author" : "Vladimir Platunov, https://github.com/vo-va",

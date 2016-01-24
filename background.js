@@ -17,6 +17,7 @@ var ext_core = {
 		this.timeout_hndl;
 		this.forecast_interval;
 		this.temperature = undefined;
+		this.time_forecast = undefined;
 		this.new_temperature = undefined;
 		this.last_modified = undefined;
 		this.STORAGE_VAR_NAME = 'my_place';
@@ -296,7 +297,7 @@ var ext_core = {
 		this.fsm_state = 'busy';
 		var now = new Date();
 		var tzdiff = now.getTimezoneOffset();
-		now = now.valueOf() + tzdiff * 60000;
+		now = now.valueOf();
 
 		var weather_key = now;
 		var all_keys = Object.keys(this.forecast_cache).map(Number).sort();
@@ -324,15 +325,18 @@ var ext_core = {
 			forecast_for_now = undefined;
 		} else {
 			if ( (i === 0) || (i === (len - 1) ) ) {
+				this.time_forecast = new Date(sought_for_key);
 				forecast_for_now = this.forecast_cache[sought_for_key.toString()];
 			} else {
 				diff1 = sought_for_key - weather_key;
 				diff2 = weather_key - all_keys[i - 1];
 
 				if (diff1 === diff2 || diff1 < diff2 ) {
+					this.time_forecast = new Date(sought_for_key);
 					forecast_for_now = this.forecast_cache[sought_for_key.toString()];
 				} else {
 					forecast_for_now = this.forecast_cache[all_keys[i - 1].toString()];
+					this.time_forecast = new Date(all_keys[i - 1]);
 				}
 			}
 		}
