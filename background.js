@@ -2,12 +2,12 @@
 (function() {
 var ext_core = {
 	init : function() {
-		this.my_place = "http://www.yr.no/place/Norway/Oslo/Oslo/Oslo/";
+		this.my_place = "https://www.yr.no/place/Norway/Oslo/Oslo/Oslo/";
 		this.place_name = 'Oslo';
 		this.page_for_button = "hour_by_hour_detailed.html";
 		this.forecast_page = "forecast_hour_by_hour.xml";
 		this.main_interval = 900000; // 60 * 1000 * 15 minutes
-		this.draw_timeout = 20000; // timout before ico changed 
+		this.draw_timeout = 20000; // timout before ico changed
 		this.day = 86400000;
 		this.alpha = 0;
 		this.x = -1;
@@ -88,7 +88,7 @@ var ext_core = {
 		link.type = 'text/css';
 		link.href = this.css_file_name;
 		document.getElementsByTagName('head')[0].appendChild(link);
-		
+
 		var doc = document.getElementsByTagName('body')[0];
 		var par = document.createElement('p');
 		par.textContent = ".";
@@ -120,7 +120,7 @@ var ext_core = {
 			if (item.my_place == undefined) {
 				//open page to choose my_place
 			} else {
-				ext_core_ptr.my_place = item.my_place; 
+				ext_core_ptr.my_place = item.my_place;
 			}
 			window.setTimeout(ext_core_ptr.next_from_queue.bind(ext_core_ptr), 1);;
 		}
@@ -154,7 +154,7 @@ var ext_core = {
 		switch(state) {
 		case 'ok':
 			this.update_last_modified_date(last_modified);
-			if (status === 304) { //not changed 
+			if (status === 304) { //not changed
 				return;
 			}
 			if (status === 200) {
@@ -195,7 +195,7 @@ var ext_core = {
 		forecast_tzdiff = (- Number(forecast_tzdiff));
 		var forecast = response.getElementsByTagName('tabular')[0];
 		forecast = forecast.getElementsByTagName('time');
-		
+
 		var forecast_len = forecast.length;
 		var row;
 		var time;
@@ -245,7 +245,7 @@ var ext_core = {
 		request.open('GET', url, true);
 
 		if (this.last_modified !== undefined){
-			
+
 			// request.setRequestHeader('If-Modified-Since', (new Date()).toUTCString());
 			request.setRequestHeader('If-Modified-Since', this.last_modified);
 		}
@@ -278,7 +278,7 @@ var ext_core = {
 		this.context.globalAlpha = this.alpha;
 
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-				
+
 		if (this.show_next === 1) {
 			this.context.drawImage(this.buffer_image, 0, 0, this.canvas.width, this.canvas.height);
 		} else {
@@ -305,7 +305,7 @@ var ext_core = {
 		// for different places around the world yr.no provide forecast with different interval
 		// also you can't get forecast for past only for future
 		// for example, if you in Oslo and your current time ins 11:30, yr.no provide information only for 12:00 not for 11:00
-		// so we always take the nearest forecast for your current time 
+		// so we always take the nearest forecast for your current time
 		var i;
 		var len;
 
@@ -340,18 +340,18 @@ var ext_core = {
 				}
 			}
 		}
-	
-		window.setTimeout(this.next_from_queue.bind(this), 1);			
+
+		window.setTimeout(this.next_from_queue.bind(this), 1);
 		if (forecast_for_now === undefined) {
 			this.temperature = 'n/a';
 			this.loop_state = 'wait_for_forecast';
 
 			this.get_url_resource(this.my_place + this.forecast_page, this.response_handler)
 			return;
-		} 
+		}
 
 		this.next_temperature = forecast_for_now.temperature;
-		this.next_symbol = ['svg/', forecast_for_now.symbol, '.svg'].join('');	
+		this.next_symbol = ['svg/', forecast_for_now.symbol, '.svg'].join('');
 
 		if (this.temperature === undefined || this.buffer_image.src === undefined) {
 			this.temperature = this.next_temperature;
@@ -359,7 +359,7 @@ var ext_core = {
 			this.set_icon_title();
 			return;
 		}
-		
+
 		if (this.temperature !== this.next_temperature || this.buffer_image.src !== this.next_symbol) {
 			this.need_update = true;
 		}
@@ -392,7 +392,7 @@ var ext_core = {
 				this.set_icon_title();
 				this.need_update = false;
 			}
-			
+
 			timeout = 1;
 			this.show_next = this.show_next ^ 1;
 		}
@@ -440,7 +440,7 @@ var ext_core = {
 		this.tick_worker.postMessage('start');
 
 	},
-	
+
 };
 ext_core.init();
 ext_core.set_worker_listner();
