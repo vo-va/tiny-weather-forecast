@@ -199,11 +199,12 @@ var ext_core = {
 		var forecast_len = forecast.length;
 		var row;
 		var time;
+		var original_time;
 		var temperature;
 		var symbol;
 		for (i = 0; i < forecast_len; i++) {
 			row = forecast[i]
-			time = row.getAttribute('from');
+			original_time = row.getAttribute('from');
 			temperature = row.getElementsByTagName('temperature')[0].getAttribute('value');
 			symbol = row.getElementsByTagName('symbol')[0].getAttribute('var');
 			symbol = normalize_symbol(symbol);
@@ -212,8 +213,8 @@ var ext_core = {
 			// so to convert to utc time we have to subtract or add local computer tzdiff and then forecast_tzdiff
 			// for example new Date("2015-01-01T00:00:00") in local tz + 4 create date object  Thu Jan 01 2015 04:00:00 GMT+0400
 			// and if forecast for Oslo tz = +0200 we must substract -4 and - 2 to the final result Jan 31 2014 22:00:00 GMT+0000
-			time = (new Date(time)).valueOf() + forecast_tzdiff * 60000;
-			this.forecast_cache[time.toString()] = {'temperature': temperature, 'symbol' : symbol};
+			time = (new Date(original_time)).valueOf() + forecast_tzdiff * 60000;
+			this.forecast_cache[time.toString()] = {'temperature': temperature, 'symbol' : symbol, 'original_time': original_time };
 		}
 
 		chrome.storage.local.set({'forecast_cache' : JSON.stringify(this.forecast_cache)});
@@ -299,7 +300,7 @@ var ext_core = {
 		var tzdiff = now.getTimezoneOffset();
 		now = now.valueOf();
 
-		var weather_key = now;
+		var weather_key = now + tzdiff * 60000;
 		var all_keys = Object.keys(this.forecast_cache).map(Number).sort();
 
 		// for different places around the world yr.no provide forecast with different interval
