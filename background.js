@@ -16,6 +16,7 @@ var ext_core = {
 		this.img_data;
 		this.timeout_hndl;
 		this.forecast_interval;
+		this.forecast_last_check = undefined;
 		this.temperature = undefined;
 		this.time_forecast = undefined;
 		this.new_temperature = undefined;
@@ -297,6 +298,7 @@ var ext_core = {
 		}
 		this.fsm_state = 'busy';
 		var now = new Date();
+		this.forecast_last_check = now;
 		var tzdiff = now.getTimezoneOffset();
 		now = now.valueOf();
 
@@ -429,6 +431,12 @@ var ext_core = {
 		if (this.fsm_state !== 'ready'){
 			this.waiting_queue.push([this.main_loop, this]);
 			return;
+		}
+
+		var now = new Date();
+		var time_diff = now - this.forecast_last_check;
+		if ( time_diff > this.main_interval || time_diff < 0) {
+			window.setTimeout(this.get_forecast_for_now.bind(this), 1);
 		}
 
 		this.set_text_opts();
