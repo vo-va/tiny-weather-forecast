@@ -1,5 +1,6 @@
 a.yrfc-ext-my-place-link, a.yrfc-ext-my-place-link:hover {
-	font-size: 0.4em;
+	font-size: 1em;
 	text-decoration: none;
 	cursor: pointer;
+	padding-left: 1em;
 }

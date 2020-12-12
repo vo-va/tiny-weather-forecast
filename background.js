@@ -2,10 +2,10 @@
 (function() {
 var ext_core = {
 	init : function() {
-		this.my_place = "https://www.yr.no/place/Norway/Oslo/Oslo/Oslo/";
+		this.my_place = "https://www.yr.no/place/Norway/Oslo/Oslo/Oslo";
 		this.place_name = 'Oslo';
-		this.page_for_button = "hour_by_hour_detailed.html";
-		this.forecast_page = "forecast_hour_by_hour.xml";
+		this.page_for_button = "";
+		this.forecast_page = "/forecast_hour_by_hour.xml";
 		this.main_interval = 900000; // 60 * 1000 * 15 minutes
 		this.draw_timeout = 20000; // timout before ico changed
 		this.day = 86400000;
@@ -58,6 +58,9 @@ var ext_core = {
 		var text_temperature = this.temperature >= 0 ? '+' + this.temperature : this.temperature;
 		chrome.browserAction.setTitle({'title': 'Current weather in ' + this.place_name + ': ' + text_temperature + '.\nClick to open detailed weather forecast.'});
 	},
+	convert_new_link_to_old(new_link) {
+		return new_link.replace('/en/forecast/daily-table/', '/').replace(/\d+-\d+/, 'place');
+	},
 	make_listen : function() {
 		var key;
 		var ext_core_ptr = this;
@@ -68,7 +71,7 @@ var ext_core = {
 						return;
 					}
 					ext_core_ptr.need_clean = true;
-					ext_core_ptr.my_place = changes[key].newValue;
+					ext_core_ptr.my_place = ext_core_ptr.convert_new_link_to_old(changes[key].newValue);
 					ext_core_ptr.last_modified = undefined;
 					ext_core_ptr.get_url_resource(ext_core_ptr.my_place + ext_core_ptr.forecast_page, ext_core_ptr.response_handler)
 				}
