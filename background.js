@@ -121,10 +121,12 @@ var ext_core = {
 	get_my_place : function() {
 		var ext_core_ptr = this;
 		var _get_my_place = function(item) {
+			// This is another place where extension set url for forecast.
+			// converting yr.no page url for the place to url that is used to get forecast
 			if (item.my_place == undefined) {
 				//open page to choose my_place
 			} else {
-				ext_core_ptr.my_place = item.my_place;
+				ext_core_ptr.my_place = ext_core_ptr.convert_new_link_to_old(item.my_place);
 			}
 			window.setTimeout(ext_core_ptr.next_from_queue.bind(ext_core_ptr), 1);;
 		}
